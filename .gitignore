@@ -1,6 +1,6 @@
-src/.ipynb_checkpoints
-src/archiv
-/src/models
+/src/.ipynb_checkpoints
+/src/archiv/*
+/src/models/*
 .locks
 .ipynb_checkpoints
 env

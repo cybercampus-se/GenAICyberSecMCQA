@@ -1,0 +1,8 @@
+src/.ipynb_checkpoints
+archive/*
+models/*
+Gustav
+.locks
+.ipynb_checkpoints
+.venv
+.env

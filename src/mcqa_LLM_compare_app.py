@@ -186,11 +186,11 @@ def extract_answer_from_text_file(path_to_text_file):
 
     df = pd.DataFrame(data)
     return df
-
+ 
 
 
 prompt_template = PromptTemplate.from_template(PROMPT_TEMPLATE)
-questions = extract_answer_from_text_file("../data/questions.txt")
+questions = extract_answer_from_text_file(QUESTIONS)
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 
@@ -198,7 +198,6 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 llm_exam_result = pd.DataFrame(columns = ["QuestionIndex", "SamplingIndex", "NumberOfCorrectLLMAnswers", "NumberOfCorrectExamAnswers", "Ratio", "LLM_Answer", "Exam_Answers", "Answered_Correctly",  "Too_Many_answers"]) 
 valid_question_answer = False  
 for model, model_path in MODEL_PATH.items():
-    chain = prompt_template | llm
     #Load the model wiht LLamaCpp
     llm = LlamaCpp(
         model_path= model_path,
@@ -208,6 +207,8 @@ for model, model_path in MODEL_PATH.items():
         callback_manager=callback_manager,
         verbose=False,  # Verbose is required to pass to the callback manager
     )
+
+    chain = prompt_template | llm
 
 
     for index_question, row in questions.iterrows():
@@ -249,4 +250,7 @@ for model, model_path in MODEL_PATH.items():
             valid_question_answer = False
             answered_correctly = False
 
-    plot_evaluation
+    print(llm_exam_result)
+    evaluation_df = evaluation(llm_exam_result)
+    plot_evaluation(evaluation_df)
+    

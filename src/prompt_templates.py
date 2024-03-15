@@ -17,8 +17,9 @@ FEW_SHOT_TEMPLATE = """
         Correct Answer: ['A','D']           
     
     Now, answer the following question:
-    Question:{Exam_Question}                        
-    Choices: {Exam_Choices}
+    Question: {Exam_Question}                        
+    Choices:
+    {Exam_Choices}
     """
 
 

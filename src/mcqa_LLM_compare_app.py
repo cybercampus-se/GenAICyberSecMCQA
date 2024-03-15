@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from config import *
 
 
+
 #Valid Answers:
 """
     "Correct Answer: ['A','D']", 

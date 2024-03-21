@@ -53,10 +53,10 @@ D. WLC
 Answer:C
 
 Question:What is the first step that occurs when provisioning a wired device in a BYOD scenario?
-A. The smart hub detects that the physically connected endpoint requires configuration and must use MAB to authenticate.
-B. The URL redirects to the Cisco ISE Guest Provisioning portal.
-C. Cisco ISE authenticates the user and deploys the SPW package.
-D. The device user attempts to access a network URL.
+A. The smart hub detects that the physically connected endpoint requires configuration and must use MAB to authenticate
+B. The URL redirects to the Cisco ISE Guest Provisioning portal
+C. Cisco ISE authenticates the user and deploys the SPW package
+D. The device user attempts to access a network URL
 Answer:A
 
 Question:An organization has recently deployed ISE with the latest models of Cisco switches, and it plans to deploy Trustsec to secure its infrastructure. The company also wants to allow different network access policies for different user groups (e.g., administrators). Which solution is needed to achieve these goals?

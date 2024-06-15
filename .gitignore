@@ -7,3 +7,4 @@ Gustav
 .venv
 .env
 vLLM_Test/.venvVLLM
+data/Book/*

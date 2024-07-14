@@ -1,0 +1,61 @@
+# Configuration of MCQA with Cisco Certifications
+
+control_output: true
+
+# Path to the main directory
+workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
+
+# Dictionary with the model paths and the corresponding model names
+model_paths:
+  Mixtral-8x-7b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Mixtral/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
+  Phi-2: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi2/phi-2.Q4_K_M.gguf"
+  #Llama2-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-70b.Q5_K_M.gguf"
+  Phi-3-medium-128k: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi3/Phi-3-mini-4k-instruct-q4.gguf"
+
+# Set the model parameters here
+model_parameters:
+  temperature: 0
+  max_output_tokens: 2
+
+# Sampling rate determines how often a question is asked again if the answer format is wrong
+max_sampling_rate: 5
+
+# Set to 1 if you don't want to shuffle
+num_of_shuffles: 1
+
+# Set the number of questions to be asked, default is 120 since it is the number of questions in a CCNA exam
+number_of_questions: 120
+
+# Turn on/off tracking of results and prints
+track_results: true
+print_results: true
+
+# Dataset name
+dataset_name: "201-301-CCNA"
+
+# Date format
+date_format: "%Y_%m_%d_%H_%M"
+
+# Set output path
+output_path: "../results/{number_of_questions}_questions_5_Shot_HELM_{dataset_name}_{date}/"
+
+# Set output file name
+output_evaluation: "{output_path}llm_5_Shot_{dataset_name}.pkl"
+
+# Filename output evaluation detailed
+output_evaluation_detailed: "../results/{number_of_questions}_questions_5_Shot_HELM_{dataset_name}_{date}/llm_prob_result_detailed_{dataset_name}_5_Shot.pkl"
+
+# Set filename of json file
+output_evaluation_json: "../results/{number_of_questions}_questions_5_Shot_HELM_{dataset_name}_{date}/llm_prob_result_{dataset_name}_5_Shot.json"
+
+# Create folder for results if not exists
+create_results_folder: true
+
+# Set the questions bank here
+questions_bank: "../data/201-301-CCNA.parquet"  # CCNA
+
+# HELM result file path
+helm_result: "../data/official_sec_mmlu_results.pkl"
+
+# Set the prompt template here
+prompt_template: "CCNA_5_SHOT_TEMPLATE_NO_WHITESPACE_AT_FINAL_ANW"

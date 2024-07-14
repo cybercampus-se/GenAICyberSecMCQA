@@ -1,3 +1,5 @@
+#Different templates for the generation of the few-shot learning examples
+
 CCNA_5_SHOT_TEMPLATE = """
 The following are multiple choice questions (with answers) about network fundamentals, network access,
 security fundamentals, automation and programmability. Here are five examples:

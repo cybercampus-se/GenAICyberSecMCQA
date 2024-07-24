@@ -44,3 +44,12 @@ Inside the configuration file, you can decide whether to store the results of a 
 2. **data**: Datasets in xlsx format, parquet.
 3. **results**: Storage of capability test results. Folder names are defined inside the configuration file.
 
+
+## Quick Start
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+

@@ -1,0 +1,10 @@
+ipykernel
+ipython
+langchain==0.2.9
+langchain-community==0.2.7
+pandas==2.2.2
+matplotlib==3.9.1
+pyarrow==17.0.0
+scikit-learn
+sentence-transformers
+#llama-cpp-python

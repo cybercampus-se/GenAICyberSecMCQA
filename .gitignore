@@ -8,3 +8,4 @@ Gustav
 .env
 vLLM_Test/.venvVLLM
 data/Book/*
+src/__pycache__

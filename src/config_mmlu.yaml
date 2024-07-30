@@ -12,16 +12,17 @@ model_paths:
   #Mixtral-8x-7b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Mixtral/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
   #Phi-2: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi2/phi-2.Q4_K_M.gguf"
   #Phi-3-medium-128k: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi3/Phi-3-mini-4k-instruct-q4.gguf"
-  Llama-65b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama/upstage-llama-65b-instruct.Q4_K_M.gguf"
-  Llama2-13b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-13b-chat.Q4_K_M.gguf"
-  Llama3-8b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/meta-llama-3-8b-instruct.Q4_K_M.gguf"
-  Llama2-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-70b.Q5_K_M.gguf"
-  Llama3-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/Meta-Llama-3-70B-Instruct-v2.Q4_K_M.gguf"
+  #Llama-65b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama/upstage-llama-65b-instruct.Q4_K_M.gguf"
+  #Llama2-13b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-13b-chat.Q4_K_M.gguf"
+  #Llama3-8b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/meta-llama-3-8b-instruct.Q4_K_M.gguf"
+  #Llama2-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-70b.Q5_K_M.gguf"
+  #Llama3-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/Meta-Llama-3-70B-Instruct-v2.Q4_K_M.gguf"
+  Llama3.1-70b: "ollama:llama3.1:70b"
 
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 1
+  max_output_tokens: 500
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 5
@@ -66,4 +67,4 @@ create_results_folder: true
 helm_result: "../data/official_sec_mmlu_results.pkl"
 
 # Set the prompt template here
-prompt_template: FEW_SHOT_TEMPLATE_MMLU_NO_WHITESPACE
+prompt_template: TEMPLATE_MMLU_PRO

@@ -1,0 +1,11 @@
+Model,Accuracy
+Yi-34b,0.83
+Mixtral-8x-7b,0.82
+Llama2-70b,0.77
+Phi-2,0.73
+Llama3-70b,0.85
+Llama3-8b,0.8
+Llama2-7b,0.59
+Llama-65b,0.0
+Llama3.1 70B Instruct, 0.8
+Llama3.1 405b Instruct, 0.81

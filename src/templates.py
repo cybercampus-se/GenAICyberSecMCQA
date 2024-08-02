@@ -533,7 +533,7 @@ Answer: D
 Answer: """
 
 #https://huggingface.co/datasets/meta-llama/Meta-Llama-3.1-405B-Instruct-evals/viewer/Meta-Llama-3.1-405B-Instruct-evals__mmlu__details/latest?q=computer_security&row=11473
-LLAMA31_INSTRUCT_MMLU_0_SHOT_COT = """<|start_header_id|>user<|end_header_id|>
+LLAMA31_INSTRUCT_MMLU_0_SHOT_COT_RAW = """<|start_header_id|>user<|end_header_id|>
 
 Given the following question and four candidate answers (A, B, C and D), choose the best answer.
 
@@ -668,5 +668,5 @@ Your response should end with \"The best answer is [the_answer_letter]\" where t
 Question: {Exam_Question}
 {Exam_Choices}
 Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C or D."""},
-#{"role": "assistant", "content": "The best answer is "},
+{"role": "assistant", "content": "The best answer is"},
 ]

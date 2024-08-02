@@ -8,4 +8,6 @@ pyarrow==17.0.0
 scikit-learn
 sentence-transformers
 langchain-openai
-#llama-cpp-python
+python-dotenv
+anthropic
+openai

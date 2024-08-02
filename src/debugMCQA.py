@@ -1,16 +1,20 @@
-
 from templates import *
 from utils import *
 import time
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain_community.llms import LlamaCpp
-from langchain.callbacks.manager import CallbackManager
 import pandas as pd
 from langchain import PromptTemplate
 import warnings
 import json
 import os
-from langchain_openai import ChatOpenAI
+import requests
+import json
+from openai import OpenAI
+import copy
+from dotenv import load_dotenv
+
+#load api key from .env file
+load_dotenv()
+# Define the URL and the data payload
 warnings.filterwarnings('ignore')
 
 import sys
@@ -18,7 +22,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 # Change the current working directory to the script's directory
 os.chdir(script_dir)
 
-CONFIG_FILE = 'config_ccnp_vision.yaml'
+CONFIG_FILE = 'config_ccnp_vision.yaml'#'config_mmlu.yaml'
 config = load_config(CONFIG_FILE)
 # Assign values from the configuration
 WORKSPACE_DIC = config['workspace_dir']
@@ -118,20 +122,13 @@ try:
 except:
     print("Number of questions is greater than the number of questions in the questionbank. Max Number taken")
 
-#questions = extract_answer_from_text_file("../data/questionbank_cisco_CCNP.txt")
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-prompt_template = PromptTemplate.from_template(PROMPT_TEMPLATE)
 
-import requests
-import json
-from openai import OpenAI
-import copy
-# Define the URL and the data payload
+
+
 
 #Iterate over each model definied in the MODEL_PATH dictionary
 for model, model_path in MODEL_PATH.items():
-     #Load the model wiht LLamaCpp
-    print("Load Model ...")
+    print("Loading Model ...")
     if "ollama" in model_path:
         model_name = model_path.split("ollama:")[1]
         #with this the ollama api can be accessed and also the raw model
@@ -143,27 +140,23 @@ for model, model_path in MODEL_PATH.items():
         #for the Ollama OpenAI interface
         client = OpenAI(
             base_url = 'http://localhost:11434/v1',
-            api_key='ollama', # required, but unused
         )
     elif "vllm" in model_path:
         model_name = model_path.split("vllm:")[1]
         client = OpenAI(
             base_url="http://localhost:8086/v1",
-            api_key="test",
-        )
-    else:    
-        llm = LlamaCpp(
-            model_path= model_path,
-            n_gpu_layers=-1,
-            n_batch=512,
-            n_ctx=1100,
-            temperature=TEMPERATURE,
-            max_tokens = MAX_OUTPUT_TOKENS,
-            #callback_manager=callback_manager,
-            verbose=False,  # Verbose is required to pass to the callback manager
-        )
-        chain = prompt_template | llm
-    print("Model loaded")
+            api_key="test")
+    elif "openai" in model_path:
+        model_name = model_path.split("openai:")[1]
+        client = OpenAI()
+    elif "anthropic" in model_path:
+        model_name = model_path.split("anthropic:")[1]
+        import anthropic
+        client = anthropic.Anthropic()
+        print("Model loaded")
+    else:
+        #throw an exception if the model is not found
+        raise Exception("Model not found")
 
     for shuffled_iteration in range(NUM_OF_SHUFFLES):
         llm_exam_result = pd.DataFrame(columns = ["Model", "QuestionIndex", "SamplingIndex", "NumberOfChoices", "NumberOfCorrectLLMAnswers", "NumberOfIncorrectLLMAnswers", "NumberOfCorrectExamAnswers", "Ratio", "LLM_Answer", "Exam_Answers", "Answered_Correctly",  "Too_Many_answers"]) 
@@ -172,8 +165,8 @@ for model, model_path in MODEL_PATH.items():
         start_time = time.time()
         for index_question, row in questions.iterrows():
             # to test vision model
-            if row["image"] == 'nan':
-                continue  
+            # if row["image"] == 'nan':
+            #     continue  
             question = row['question']
             choices = row['choices']
             answers = row['answer']
@@ -194,11 +187,25 @@ for model, model_path in MODEL_PATH.items():
             valid_question_answer = False
             #TODO Iterate over the maximum sampling rate. Does this make sense with Temperature 0???
             for index_sampling in range(MAX_SAMPLING_RATE):
+                #prepare prompt
+                if type(PROMPT_TEMPLATE) is list:
+                    #in case of the few shot conversation chat template
+                    messages = copy.deepcopy(PROMPT_TEMPLATE)
+                    for dialog in messages:
+                        if "{Exam_Question}" in dialog["content"] and "{Exam_Choices}" in dialog["content"]:
+                            dialog["content"] = dialog["content"].format(Exam_Question=row['question'], Exam_Choices=choices)
+                else:
+                    #in case of the single message template
+                    messages = [{"role": "user", "content": [
+                            {"type": "text", "text": PromptTemplate.from_template(PROMPT_TEMPLATE).format(Exam_Question=row['question'],Exam_Choices=choices)}]}]           
+                # if an image exist appendit to the last message
+
+
                 if "ollama_raw" in model_path:
                     # use the raw olalma interface. the default (internal) template is not used.
                     payload = {
                         "model": model_name,
-                        "prompt": prompt_template.format(Exam_Question=row['question'],Exam_Choices=choices),
+                        "prompt": PromptTemplate.from_template(LLAMA31_INSTRUCT_MMLU_5_SHOT_RAW).format(Exam_Question=row['question'],Exam_Choices=choices),
                         "raw": True,
                         "stream": False,
                         "options": {
@@ -209,43 +216,62 @@ for model, model_path in MODEL_PATH.items():
                     # Make the POST request
                     response = requests.post(url, headers=headers, data=json.dumps(payload))
                     llm_answer = response.json()["response"]
-                elif "ollama" in model_path:
-                    #this is used of the OLLAMA openai API format
-                    dialogs = copy.deepcopy(PROMPT_TEMPLATE)
-                    for dialog in dialogs:
-                        if "{Exam_Question}" in dialog["content"] and "{Exam_Choices}" in dialog["content"]:
-                            dialog["content"] = dialog["content"].format(Exam_Question=row['question'], Exam_Choices=choices)
+                elif "ollama_without_chat" in model_path:    
+                    #this is used of the OLLAMA openai API format and Completion mode. OUDATED
+                    response = client.completions.create(
+                    model=model_name,
+                    prompt= PromptTemplate.from_template(FEW_SHOT_TEMPLATE_MMLU).format(Exam_Question=row['question'],Exam_Choices=choices),
+                    temperature=TEMPERATURE,
+                    max_tokens=MAX_OUTPUT_TOKENS,
+                    )
+                    llm_answer = response.choices[0].text
+                    #print("Correct:", answers, "- Chat: ",llm_answer_chat," - completion: ",response.choices[0].text)
+                elif "vllm"  in model_path or "openai"  in model_path or "ollama" in model_path:
+                    #check if image exist in Series Object row
+                    try:
+                        image_base64= row["image"]
+                        if image_base64 != 'nan':
+                            text = [
+                            {"type": "text", "text": messages[-1]["content"]},
+                                    {"type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/png;base64,{image_base64}",
+                                    }}
+                            ]
+                            messages[-2]["content"] = text
+                    except:
+                        pass
                     response = client.chat.completions.create(
                     model=model_name,
-                    messages=dialogs,
+                    messages=messages,
                     temperature=TEMPERATURE,
                     max_tokens=MAX_OUTPUT_TOKENS,
                     )
                     llm_answer = response.choices[0].message.content
-                    print(dialogs[-1])
-                elif "vllm" in model_path:
-                    image_base64= row["image"]
-                    response = client.chat.completions.create(
-                    model="microsoft/Phi-3-vision-128k-instruct",
-                    messages=[
-                        {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt_template.format(Exam_Question=row['question'],Exam_Choices=choices)},
-                            {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{image_base64}",
-                            }, 
-                            },
-                        ],
-                        }
-                    ],
-                    max_tokens=300,
-                    )
-                    llm_answer = response.choices[0].message.content
+                elif "anthropic" in model_path:
+                    try:
+                        image_base64= row["image"]
+                        if image_base64 != 'nan':
+                            text = [
+                            {"type": "text", "text": messages[-1]["content"]},
+                           
+                                    {"type": "image",
+                                    "source": {
+                                        "type": "base64",
+                                        "media_type": "image/png",
+                                        "data": image_base64,
+                                    }}
+                            ]
+                            messages[-2]["content"] = text
+                    except:
+                        pass
+                    llm_answer = client.messages.create(
+                            max_tokens=MAX_OUTPUT_TOKENS,
+                            model=model_name,
+                            messages=messages,                          
+                        ).content[0].text
                 else:
-                    llm_answer = chain.invoke({"Exam_Question" : row['question'], "Exam_Choices" : choices})  
+                    raise Exception("Model not found")
                 # Check if the answer is in the expected format
                 print("LLM output: ",llm_answer)
                 if extract_answer(llm_answer) is not None:
@@ -264,7 +290,6 @@ for model, model_path in MODEL_PATH.items():
             else:
                 new_row = pd.DataFrame({"Model": [model], "QuestionIndex": [index_question], "SamplingIndex": [sample_Index],  "NumberOfChoices": num_of_choices, "NumberOfIncorrectLLMAnswers": number_of_incorrect_llm_answers , "NumberOfCorrectLLMAnswers": [num_of_correct_llm_answer], "NumberOfCorrectExamAnswers": [num_of_correct_answer], "Ratio": [num_of_correct_llm_answer/num_of_correct_answer], "LLM_Answer": [answerLLm], "Exam_Answers": [answers], "Answered_Correctly" : [answered_correctly], "Too_Many_answers": [too_many_answers]})
                 llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
-                #
                 valid_question_answer = False
 
         answered_correctly = False
@@ -299,7 +324,6 @@ if TRACK_RESULTS:
     shuffled_evalutation_df.to_pickle(OUTPUT_EVALUATION_DETAILED)
     model_statistics.to_pickle(OUTPUT_EVALUATION)
 
-#stop script
 
 import os
 

@@ -36,38 +36,30 @@ def extract_answer(answer):
         answer: The answer string to extract the correct answers from.
 
     Returns:
-        A list of correct answers (e.g., ['A', 'B']) if found, otherwise None. 
+        A list of correct answers. 
     """
-    #print(repr(answer))
-    answer = re.sub(r'[\s\n.,]', '', answer)
+    answer_proc = re.sub(r'[\s\n.,]', '', answer)
     pattern = re.compile(r'^[A-Z,]*$')
     #print(answer)
-    if re.match(pattern, answer):
-        if ',' in answer:
-            return None
-        else:
-            return list(answer)
+    if re.match(pattern, answer_proc):
+        return list(answer_proc)
     else:
-        return None
-    
-#TODO test the regex. LLama3 seems to have longer answers sometime: https://github.com/TIGER-AI-Lab/MMLU-Pro/issues/5
-def extract_answer_cot(answer):
-    # Define the regex patterns
-    pattern1 = re.compile(r"answer is \(?([ABCDEFGHIJ])\)?", re.IGNORECASE)
-    pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J])', re.IGNORECASE)
-    
-    # Find matches using the first regex pattern
-    match1 = pattern1.findall(answer)
-    
-    # Find matches using the second regex pattern
-    match2 = pattern2.findall(answer)
-    
-    # Combine results from both patterns
-    results = match1 + match2
-    
-    # Return unique results as a list
-    return list(set(results))
-
+        #TODO test the regex. LLama3 seems to have longer answers sometime: https://github.com/TIGER-AI-Lab/MMLU-Pro/issues/5
+        # Define the regex patterns
+        pattern1 = re.compile(r"answer is \(?([ABCDEFGHIJ])\)?", re.IGNORECASE)
+        pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J])', re.IGNORECASE)
+        
+        # Find matches using the first regex pattern
+        match1 = pattern1.findall(answer)
+        
+        # Find matches using the second regex pattern
+        match2 = pattern2.findall(answer)
+        
+        # Combine results from both patterns
+        results = match1 + match2
+        
+        # Return unique results as a list
+        return list(set(results))
     
 def compare_answers(answerLLM, answer_exam):
     """Compares the extracted correct answers with the answers in answer_exam.

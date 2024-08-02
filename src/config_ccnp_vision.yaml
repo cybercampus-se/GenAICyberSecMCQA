@@ -7,23 +7,16 @@ workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  #Mixtral-8x-7b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Mixtral/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
-  #Phi-2: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi2/phi-2.Q4_K_M.gguf"
-  #Llama2-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-70b.Q5_K_M.gguf"
-  #Phi-3-medium-128k: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Phi/Phi3/Phi-3-mini-4k-instruct-q4.gguf"
-  #Llama-65b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama/upstage-llama-65b-instruct.Q4_K_M.gguf"
-  #Llama2-13b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-13b-chat.Q4_K_M.gguf"
-  #Llama3-8b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/meta-llama-3-8b-instruct.Q4_K_M.gguf"
-  #Llama2-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/Llama2/llama-2-70b.Q5_K_M.gguf"
-  #Llama3-70b: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy/Llama/LLama3/Meta-Llama-3-70B-Instruct-v2.Q4_K_M.gguf"
-  #Llama3-405b: "ollama:llama3.1:405b"
-  #Llama3.1-70b: "ollama:llama3.1:70b"
-  Phi-3-vision: vllm:microsoft/Phi-3-vision-128k-instruct
+  Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  #Mistral Large 2: "ollama:mistral-large:123b-instruct-2407-fp16"
+  #OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
+  #Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
+
 
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 200
+  max_output_tokens: 2
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
@@ -31,8 +24,8 @@ max_sampling_rate: 1
 # Set to 1 if you don't want to shuffle
 num_of_shuffles: 1
 
-# Set the number of questions to be asked, default is 120 since it is the number of questions in a CCNA exam
-number_of_questions: 133
+# Set the number of questions to be asked
+number_of_questions: 10 #133
 
 # Turn on/off tracking of results and prints
 track_results: true
@@ -66,4 +59,5 @@ questions_bank: "../data/350-701-CCNP.parquet"
 helm_result: "../data/official_sec_mmlu_results.pkl"
 
 # Set the prompt template here
-prompt_template: "CCNA_5_SHOT_TEMPLATE_NO_WHITESPACE_AT_FINAL_ANW"
+prompt_template: "LLAMA31_INSTRUCT_MMLU_5_SHOT_OPENAI"
+#"CCNA_5_SHOT_TEMPLATE_NO_WHITESPACE_AT_FINAL_ANW"

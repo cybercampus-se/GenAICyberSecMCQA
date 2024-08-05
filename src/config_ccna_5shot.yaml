@@ -22,7 +22,7 @@ model_paths:
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 2
+  max_output_tokens: 5
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 5
@@ -31,7 +31,7 @@ max_sampling_rate: 5
 num_of_shuffles: 1
 
 # Set the number of questions to be asked, default is 120 since it is the number of questions in a CCNA exam
-number_of_questions: 120
+number_of_questions: 100
 
 # Turn on/off tracking of results and prints
 track_results: true
@@ -65,4 +65,4 @@ questions_bank: "../data/201-301-CCNA.parquet"  # CCNA
 helm_result: "../data/official_sec_mmlu_results.pkl"
 
 # Set the prompt template here
-prompt_template: "CCNA_5_SHOT_TEMPLATE_NO_WHITESPACE_AT_FINAL_ANW"
+prompt_template: "LLAMA31_INSTRUCT_CCNA_5_SHOT_OPENAI"

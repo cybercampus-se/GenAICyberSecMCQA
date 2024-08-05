@@ -38,17 +38,18 @@ def extract_answer(answer):
     Returns:
         A list of correct answers. 
     """
+
+    # Cleaning the input by removing some non-relevant characters
     answer_proc = re.sub(r'[\s\n.,]', '', answer)
-    pattern = re.compile(r'^[A-Z,]*$')
-    #print(answer)
-    if re.match(pattern, answer_proc):
+    
+    # Define regex patterns for different cases
+    pattern_single_letters = re.compile(r'^[A-J]+$')
+    pattern1 = re.compile(r"answer is \(?([A-J]+)\)?", re.IGNORECASE)
+    pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J]+)', re.IGNORECASE)
+    
+    if re.match(pattern_single_letters, answer_proc):
         return list(answer_proc)
     else:
-        #TODO test the regex. LLama3 seems to have longer answers sometime: https://github.com/TIGER-AI-Lab/MMLU-Pro/issues/5
-        # Define the regex patterns
-        pattern1 = re.compile(r"answer is \(?([ABCDEFGHIJ])\)?", re.IGNORECASE)
-        pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J])', re.IGNORECASE)
-        
         # Find matches using the first regex pattern
         match1 = pattern1.findall(answer)
         
@@ -58,8 +59,12 @@ def extract_answer(answer):
         # Combine results from both patterns
         results = match1 + match2
         
-        # Return unique results as a list
-        return list(set(results))
+        # Flatten the list and remove duplicates
+        combined_results = []
+        for result in results:
+            combined_results.extend(list(result))
+        
+        return list(set(combined_results))
     
 def compare_answers(answerLLM, answer_exam):
     """Compares the extracted correct answers with the answers in answer_exam.

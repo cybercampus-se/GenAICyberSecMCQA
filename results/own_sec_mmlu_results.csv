@@ -1,3 +1,3 @@
 Model,Accuracy
-Llama3.1 70B Instruct, 0.83(0.82 with chat template) 5_shot, 0.84
+Llama3.1 70B Instruct, 0.83(0.82 with chat template) 5_shot,
 Llama3.1 405b Instruct, 0.88(0.84 with chat template) 5_shot,

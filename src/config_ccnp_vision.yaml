@@ -7,16 +7,15 @@ workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
-  #Mistral Large 2: "ollama:mistral-large:123b-instruct-2407-fp16"
+  #Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
   #OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
-  #Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
+  Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
 
 
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 2
+  max_output_tokens: 5
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
@@ -25,7 +24,7 @@ max_sampling_rate: 1
 num_of_shuffles: 1
 
 # Set the number of questions to be asked
-number_of_questions: 10 #133
+number_of_questions:  15 #133
 
 # Turn on/off tracking of results and prints
 track_results: true
@@ -53,11 +52,10 @@ output_evaluation_json: "../results/{number_of_questions}_questions_5_Shot_HELM_
 create_results_folder: true
 
 # Set the questions bank here
-questions_bank: "../data/350-701-CCNP.parquet"
+questions_bank: "../data/350-701-CCNP_only_images_15.parquet"
 
 # HELM result file path
 helm_result: "../data/official_sec_mmlu_results.pkl"
 
 # Set the prompt template here
-prompt_template: "LLAMA31_INSTRUCT_MMLU_5_SHOT_OPENAI"
-#"CCNA_5_SHOT_TEMPLATE_NO_WHITESPACE_AT_FINAL_ANW"
+prompt_template: "LLAMA31_INSTRUCT_CCNA_5_SHOT_OPENAI"

@@ -22,7 +22,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 # Change the current working directory to the script's directory
 os.chdir(script_dir)
 
-CONFIG_FILE = 'config_ccnp_vision.yaml'#'config_mmlu.yaml'
+CONFIG_FILE = 'config_ccnp_vision.yaml'#config_ccna_5shot.yaml'#'config_mmlu.yaml'
 config = load_config(CONFIG_FILE)
 # Assign values from the configuration
 WORKSPACE_DIC = config['workspace_dir']
@@ -117,10 +117,10 @@ shuffled_evalutation_df = pd.DataFrame(columns=[ 'Number of Questions','Correctl
 questions  = pd.read_parquet(QUESTIONS_BANK)
 #questions  = pd.read_csv(QUESTIONS_BANK)
 #Randomly take NUMBER_OF_QUESTIONS (default 120)
-try:
-    questions = questions.sample(n=NUMBER_OF_QUESTIONS,random_state=42)
-except:
-    print("Number of questions is greater than the number of questions in the questionbank. Max Number taken")
+#try:
+#    questions = questions.sample(n=NUMBER_OF_QUESTIONS,random_state=42)
+#except:
+#    print("Number of questions is greater than the number of questions in the questionbank. Max Number taken")
 
 
 
@@ -238,7 +238,7 @@ for model, model_path in MODEL_PATH.items():
                                         "url": f"data:image/png;base64,{image_base64}",
                                     }}
                             ]
-                            messages[-2]["content"] = text
+                            messages[-1]["content"] = text
                     except:
                         pass
                     response = client.chat.completions.create(
@@ -262,9 +262,11 @@ for model, model_path in MODEL_PATH.items():
                                         "data": image_base64,
                                     }}
                             ]
-                            messages[-2]["content"] = text
+                            messages[-1]["content"] = text
                     except:
                         pass
+                    #claude 3.5 does not follow the format of the other models without the snippet below, or else it responds with "Based on...", and not with a letter
+                    messages.append({"role": "assistant", "content": "The best answer is"})
                     llm_answer = client.messages.create(
                             max_tokens=MAX_OUTPUT_TOKENS,
                             model=model_name,

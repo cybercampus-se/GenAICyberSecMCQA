@@ -7,15 +7,16 @@ workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  #Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
-  #OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
+  Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
 
 
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 5
+  max_output_tokens: 10
+  top_p: 0
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
@@ -31,7 +32,7 @@ track_results: true
 print_results: true
 
 # Dataset name
-dataset_name: "350-701-CCNP"
+dataset_name: "350-701-CCNP-VISION"
 
 # Date format
 date_format: "%Y_%m_%d_%H_%M"

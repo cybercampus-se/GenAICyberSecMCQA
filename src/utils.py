@@ -1,14 +1,9 @@
-from templates import *
 import pandas as pd
 import re
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import random
-import warnings
 import yaml
-warnings.filterwarnings('ignore')
-
-
 
 ########################################
 #Functions for the evaluation of the LLM
@@ -44,7 +39,8 @@ def extract_answer(answer):
     
     # Define regex patterns for different cases
     pattern_single_letters = re.compile(r'^[A-J]+$')
-    pattern1 = re.compile(r"answer is \(?([A-J]+)\)?", re.IGNORECASE)
+    #pattern1 = re.compile(r"answer is \(?([A-J]+)\)?", re.IGNORECASE)
+    pattern1 = re.compile(r"answer is \[?([A-J]+)\]?", re.IGNORECASE)
     pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J]+)', re.IGNORECASE)
     
     if re.match(pattern_single_letters, answer_proc):
@@ -263,10 +259,10 @@ def calculate_model_statistics(df):
     return pd.DataFrame(model_stats)
 
 
-def shuffle_choices_and_update_answer(choices, answer):
+def shuffle_choices_and_update_answer(choices, answer, seed):
     # Erstellen Sie eine Liste von Indizes und mischen Sie sie
     indices = list(range(len(choices)))
-    random.shuffle(indices)
+    random.Random(seed).shuffle(indices)
     shuffled_choices = [choices[i] for i in indices]
     updated_answer = [indices.index(a) for a in answer]  
     
@@ -291,6 +287,8 @@ def plot_evaluation_MMLU(llm_result_df, helm_result, df1_name, df2_name, title=N
     llm_result_df = pd.merge(llm_result_df, helm_result, on='Model', suffixes=('_LLM', '_HELM'))
     llm_result_df = llm_result_df.rename(columns={'Accuracy': 'Accuracy_HELM', 'Accuracy Mean': 'Accuracy_Mean_LLM'})
 
+    #drop duplicates
+    llm_result_df = llm_result_df.drop_duplicates(subset='Model', keep='first',ignore_index=True)
     print(llm_result_df)
 
     # Just one plot
@@ -321,3 +319,11 @@ def plot_evaluation_MMLU(llm_result_df, helm_result, df1_name, df2_name, title=N
     if save_path is not None:
         fig.savefig(save_path)
 
+if __name__ == "__main__":
+    print(extract_answer("The answer is ABCDE."))
+    print(extract_answer("ABCDE."))
+    print(extract_answer("The best answer is [DE]. The access and distribution layers must be on the same device"))
+    print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],1))
+    print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],2))
+    print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],3))
+    print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],4))

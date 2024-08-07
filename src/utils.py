@@ -48,7 +48,7 @@ def extract_answer(answer):
     else:
         # Find matches using the first regex pattern
         #drop , from answer
-        
+
         match1 = pattern1.findall(answer)
         
         # Find matches using the second regex pattern
@@ -193,7 +193,7 @@ def plot_evaluation_CCNA(evaluation_df, hline_accuracy=None, hline_partial=None,
     axs[0].set_title('Accuracy Mean with Error Bars (Max and Min)', fontsize=12)
     axs[0].set_xticks([i + bar_width * i for i in range(len(evaluation_df['Model']))])
     axs[0].set_xticklabels(evaluation_df['Model'], rotation=45, ha='right', fontsize=10)
-    axs[0].legend()
+    #axs[0].legend()
     axs[0].set_ylim([0, 1])
     axs[0].yaxis.set_major_locator(mtick.MultipleLocator(0.1))
     axs[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))

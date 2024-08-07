@@ -22,7 +22,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 # Change the current working directory to the script's directory
 os.chdir(script_dir)
 
-CONFIG_FILE = 'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_ccna_5shot.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
+CONFIG_FILE = 'config_ccnp_vision.yaml'#'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
 config = load_config(CONFIG_FILE)
 # Assign values from the configuration
 WORKSPACE_DIC = config['workspace_dir']
@@ -145,6 +145,11 @@ for model, model_path in MODEL_PATH.items():
     elif "openai" in model_path:
         model_name = model_path.split("openai:")[1]
         client = OpenAI()
+    elif "nim" in model_path:
+        model_name = model_path.split("nim:")[1]
+        client = OpenAI(
+            base_url="https://integrate.api.nvidia.com/v1",
+            api_key="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")
     elif "anthropic" in model_path:
         model_name = model_path.split("anthropic:")[1]
         import anthropic
@@ -185,8 +190,9 @@ for model, model_path in MODEL_PATH.items():
                             dialog["content"] = dialog["content"].format(Exam_Question=row['question'], Exam_Choices=choices)
                 else:
                     #in case of the single message template
-                    messages = [{"role": "user", "content": [
-                            {"type": "text", "text": PromptTemplate.from_template(PROMPT_TEMPLATE).format(Exam_Question=row['question'],Exam_Choices=choices)}]}]           
+                    # messages = [{"role": "user", "content": [
+                    #         {"type": "text", "text": PromptTemplate.from_template(PROMPT_TEMPLATE).format(Exam_Question=row['question'],Exam_Choices=choices)}]}]           
+                    messages = [{"role": "user", "content": PromptTemplate.from_template(PROMPT_TEMPLATE).format(Exam_Question=row['question'],Exam_Choices=choices)}]           
                 # if an image exist appendit to the last message
 
 
@@ -205,7 +211,7 @@ for model, model_path in MODEL_PATH.items():
                     # Make the POST request
                     response = requests.post(url, headers=headers, data=json.dumps(payload))
                     llm_answer = response.json()["response"]
-                elif "vllm"  in model_path or "openai"  in model_path or "ollama" in model_path:
+                elif "vllm"  in model_path or "openai"  in model_path or "ollama" in model_path or "nim" in model_path:
                     #check if image exist in Series Object row
                     try:
                         image_base64= row["image"]
@@ -263,6 +269,7 @@ for model, model_path in MODEL_PATH.items():
                     #Save the current sampling index -- How of the question has been asked until the answer was in the correct format
                     sample_Index = index_sampling
                     valid_question_answer = True
+                    print("Extracted answer: ",answerLLm)
                     break
             
             #Depending on the result of the answer, add the result to the dataframe

@@ -47,6 +47,8 @@ def extract_answer(answer):
         return list(answer_proc)
     else:
         # Find matches using the first regex pattern
+        #drop , from answer
+        
         match1 = pattern1.findall(answer)
         
         # Find matches using the second regex pattern
@@ -321,7 +323,7 @@ def plot_evaluation_MMLU(llm_result_df, helm_result, df1_name, df2_name, title=N
 
 if __name__ == "__main__":
     print(extract_answer("The answer is ABCDE."))
-    print(extract_answer("ABCDE."))
+    print(extract_answer("The best answer is C, E."))
     print(extract_answer("The best answer is [DE]. The access and distribution layers must be on the same device"))
     print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],1))
     print(shuffle_choices_and_update_answer(["0","1","2","3","5"],[1],2))

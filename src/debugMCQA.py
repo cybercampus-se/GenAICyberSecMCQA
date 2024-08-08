@@ -22,7 +22,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 # Change the current working directory to the script's directory
 os.chdir(script_dir)
 
-CONFIG_FILE = 'config_ccnp_vision.yaml'#'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
+CONFIG_FILE = 'config_ccna_vision.yaml'#'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
 config = load_config(CONFIG_FILE)
 # Assign values from the configuration
 WORKSPACE_DIC = config['workspace_dir']

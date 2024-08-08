@@ -16,7 +16,6 @@ model_paths:
 model_parameters:
   temperature: 0
   max_output_tokens: 10
-  top_p: 0
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
@@ -25,7 +24,7 @@ max_sampling_rate: 1
 num_of_shuffles: 1
 
 # Set the number of questions to be asked
-number_of_questions:  15 #133
+number_of_questions:  15 
 
 # Turn on/off tracking of results and prints
 track_results: true

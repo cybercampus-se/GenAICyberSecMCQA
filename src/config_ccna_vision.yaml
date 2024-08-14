@@ -8,6 +8,7 @@ workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
 # Dictionary with the model paths and the corresponding model names
 model_paths:
   #Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  #MiniCPM Llama3 V2.5: "vllm:openbmb/MiniCPM-Llama3-V-2_5"
   #OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
 

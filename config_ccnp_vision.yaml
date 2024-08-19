@@ -51,8 +51,5 @@ create_results_folder: true
 # Set the questions bank here
 questions_bank: "./data/350-701-CCNP_only_images_15.parquet"
 
-# HELM result file path
-helm_result: "./data/official_sec_mmlu_results.pkl"
-
 # Set the prompt template here
 prompt_template: "LLAMA31_INSTRUCT_CCNA_5_SHOT_OPENAI"

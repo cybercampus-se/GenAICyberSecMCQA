@@ -4,7 +4,6 @@ Question: {Exam_Question}
 {Exam_Choices}
 """
 
-
 LLAMA31_INSTRUCT_MMLU_5_SHOT_OPENAI =  [
 
    {"role": "user", "content": """Given the following question and four candidate answers (A, B, C and D), choose the best answer.

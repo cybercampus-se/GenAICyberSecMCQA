@@ -22,7 +22,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 # Change the current working directory to the script's directory
 os.chdir(script_dir)
 
-CONFIG_FILE = 'config_ccna_vision.yaml'#'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
+CONFIG_FILE = 'config_mmlu.yaml'#'config_ccna_COT.yaml'#config_ccna_5shot_raw.yaml'#'config_mmlu.yaml''config_ccnp_vision.yaml'
 config = load_config(CONFIG_FILE)
 # Assign values from the configuration
 WORKSPACE_DIC = config['workspace_dir']
@@ -147,9 +147,10 @@ for model, model_path in MODEL_PATH.items():
         client = OpenAI()
     elif "nim" in model_path:
         model_name = model_path.split("nim:")[1]
+        nim_api_key = os.getenv("NIM_API_KEY")
         client = OpenAI(
             base_url="https://integrate.api.nvidia.com/v1",
-            api_key="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")
+            api_key=nim_api_key)
     elif "anthropic" in model_path:
         model_name = model_path.split("anthropic:")[1]
         import anthropic

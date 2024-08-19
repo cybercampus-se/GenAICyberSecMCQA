@@ -9,7 +9,9 @@ workspace_dir: "/hkfs/work/workspace_haic/scratch/sb7059-llm_models_jeremy"
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  #Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  #Phi-3-mini-128k-instruct: "ollama:phi3:3.8b-mini-128k-instruct-fp16"
+  Phi-3-medium-4k-instruct: "ollama:phi3:14b-medium-4k-instruct-fp16"
   #Llama3.1 70B Instruct: "ollama:llama3.1:70b-instruct-fp16"
   #Llama3.1 405B Instruct: "ollama:llama3.1:405b"
   #Qwen2-72B-Instruct: "ollama:qwen2:72b-instruct-fp16"
@@ -20,7 +22,7 @@ model_paths:
 # Set the model parameters here
 model_parameters:
   temperature: 0
-  max_output_tokens: 10
+  max_output_tokens: 2
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
@@ -28,7 +30,7 @@ max_sampling_rate: 1
 # Set to 1 if you don't want to shuffle
 num_of_shuffles: 5
 
-number_of_questions: 10
+number_of_questions: 100
 
 # Set the names for result/evaluation files here
 

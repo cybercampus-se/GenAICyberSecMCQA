@@ -55,7 +55,7 @@ Your response should end with \"The best answer is [the_answer_letter]\" where t
 Question: {Exam_Question}
 {Exam_Choices}
 Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C or D."""},
-{"role": "assistant", "content": "The best answer is"},
+#{"role": "assistant", "content": "The best answer is"},
 ]
 
 LLAMA31_INSTRUCT_CCNA_5_SHOT_OPENAI =  [
@@ -116,7 +116,7 @@ Your response should end with \"The best answer is [the_answer_letter(s)]\" wher
 Question: {Exam_Question}
 {Exam_Choices}
 Your response should end with \"The best answer is [the_answer_letter(s)]\" where the [the_answer_letter(s)] is/are of A, B, C, D, E, F,..."""},
-{"role": "assistant", "content": "The best answer is"},
+#{"role": "assistant", "content": "The best answer is"},
 ]
 
 LLAMA31_INSTRUCT_CC_5_SHOT_OPENAI =  [
@@ -200,3 +200,11 @@ The best answer is [the_answer_letter(s)].
 where the [the_answer_letter(s)] is one or multiple of A, B, C, D, E, F...
 
 Let's think step by step."""
+
+LLAMA31_INSTRUCT_0_SHOT_OPENAI =  [
+   {"role": "user", "content": """The following are multiple choice questions (with answers).
+Question: {Exam_Question}
+{Exam_Choices}
+Your response should end with \"The best answer is [the_answer_letter(s)]\" where the [the_answer_letter(s)] is/are of A, B, C, D, E,.."""},
+{"role": "assistant", "content": "The best answer is"},
+]

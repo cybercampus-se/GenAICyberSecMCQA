@@ -1,6 +1,7 @@
-# LLM Cybersecurity Question Answering
+# Generative A Cybersecurity Question Answering
 
-This is the repo for the LLM Cybersecurity Question Answering project. I holds the dataset, as well as the code for the evaluation of the models. 
+This is the repo for the paper "Benchmarking Generative AI Models Knowledge
+with Cybersecurity Certificates". I holds the datasets, as well as the code for the evaluation of the models. 
 ## Quick Start
 
 1. Clone the repository.
@@ -10,7 +11,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
-3. set API-keys in the .env file
+3. create and set API-keys in the .env file
 ```bash
 ANTHROPIC_API_KEY="123..."
 OPENAI_API_KEY="123..."

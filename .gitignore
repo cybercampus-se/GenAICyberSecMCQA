@@ -1,11 +1,5 @@
-src/.ipynb_checkpoints
-archive/*
-models/*
-Gustav
 .locks
 .ipynb_checkpoints
 .venv
-.env
-vLLM_Test/.venvVLLM
-data/Book/*
-src/__pycache__
+__pycache__
+

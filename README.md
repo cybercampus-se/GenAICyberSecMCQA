@@ -1,7 +1,9 @@
 # Generative A Cybersecurity Question Answering
 
-This is the repo for the paper "Evaluating Large Language Models in
-Cybersecurity Knowledge". I holds the datasets, as well as the code for the evaluation of the models. 
+This is the repo for the paper **Evaluating Large Language Models in
+Cybersecurity Knowledge** of the 2024 NordSec Conference. 
+I holds the datasets, as well as the code for the evaluation of the models. 
+![alt text](plots/comparison_of_models.png)
 ## Quick Start
 
 1. Clone the repository.
@@ -30,8 +32,6 @@ model_paths:
 ```bash
  python main.py --config config_mmlu.yaml 
 ```
-
-
 
 With the configuration file, you can decide to run the MMLU test or the CISCO test. The results of the test are stored inside the results folder with the corresponding name of the test and the current date. The metadata of the run is stored inside the JSON file.
 

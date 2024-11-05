@@ -146,6 +146,9 @@ for model, model_path in MODEL_PATH.items():
         import anthropic
         client = anthropic.Anthropic()
         print("Model loaded")
+    elif "nom" in model_path:
+        model_name = model_path.split("nom:")[1]
+        print("Model loaded")
     else:
         #throw an exception if the model is not found
         raise Exception("Model not found")
@@ -183,13 +186,13 @@ for model, model_path in MODEL_PATH.items():
                         image_base64= row["image"]
                         if image_base64 != 'nan':
                             text = [
-                            {"type": "text", "text": messages[-2]["content"]},
+                            {"type": "text", "text": messages[-1]["content"]},
                                     {"type": "image_url",
                                     "image_url": {
                                         "url": f"data:image/png;base64,{image_base64}",
                                     }}
                             ]
-                            messages[-2]["content"] = text
+                            messages[-1]["content"] = text
                     except:
                         pass
 
@@ -200,6 +203,43 @@ for model, model_path in MODEL_PATH.items():
                     max_tokens=MAX_OUTPUT_TOKENS,
                     )
                     llm_answer = response.choices[0].message.content
+                elif "nom" in model_path:
+                    try:
+                        image_base64= row["image"]
+                        # with open("dog.jpeg", "rb") as f:
+                        #     image_b64 = base64.b64encode(f.read()).decode()
+                        if image_base64 != 'nan':
+                            text = [
+                            {"type": "text", "text": messages[-1]["content"]},
+                                    {"type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/png;base64,{image_base64}",
+                                    }}
+                            ]
+                            messages[-1]["content"] = text
+                    except:
+                        pass
+                    ####
+                    invoke_url = "https://integrate.api.nvidia.com/v1/chat/completions"
+                    stream = False
+
+                    nim_api_key = os.getenv("NIM_API_KEY")
+                    headers = {
+                    "Authorization": f"Bearer {nim_api_key}",
+                    "Accept": "text/event-stream" if stream else "application/json"
+                    }
+
+                    payload = {
+                    "model": model_name,
+                    "messages": messages,
+                    "max_tokens": MAX_OUTPUT_TOKENS,
+                    "temperature": TEMPERATURE,
+                    "top_p": 0.70,
+                    "stream": stream
+                    }
+                    response = requests.post(invoke_url, headers=headers, json=payload)
+                    llm_answer = response.choices[0].message.content
+
                 elif "anthropic" in model_path:
                     try:
                         image_base64= row["image"]

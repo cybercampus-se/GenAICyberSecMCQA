@@ -116,7 +116,6 @@ Your response should end with \"The best answer is [the_answer_letter(s)]\" wher
 Question: {Exam_Question}
 {Exam_Choices}
 Your response should end with \"The best answer is [the_answer_letter(s)]\" where the [the_answer_letter(s)] is/are of A, B, C, D, E, F,..."""},
-
 ]
 
 LLAMA31_INSTRUCT_CC_5_SHOT_OPENAI =  [

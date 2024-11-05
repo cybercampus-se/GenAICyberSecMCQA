@@ -4,9 +4,13 @@ control_output: true
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
-  OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
-  Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
+  #Llama-3.2-11B-Vision-instruct : "vllm:unsloth/Llama-3.2-11B-Vision-Instruct"
+  #Molmo-72B-0924: "vllm:allenai/Molmo-72B-0924"
+  Molmo-7B-D-0924: "vllm:allenai/Molmo-7B-D-0924"
+  # Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
+  # OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
+  # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
+
 
 # Set the model parameters here
 model_parameters:

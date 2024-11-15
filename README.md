@@ -1,4 +1,4 @@
-# Generative A Cybersecurity Question Answering
+# Generative AI Cybersecurity Question Answering
 
 This is the repo for the paper **Evaluating Large Language Models in
 Cybersecurity Knowledge** of the 2024 NordSec Conference. 

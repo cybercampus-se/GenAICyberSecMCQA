@@ -21,47 +21,60 @@ load_dotenv()
 # Parse command line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', help='Path to the config file')
+#add model as argument
+parser.add_argument('--model', help='Model to use')
 args = parser.parse_args()
 # Load the config
 config = load_config(args.config)
 # Assign values from the configuration
-MODEL_PATH = config['model_paths']
-TEMPERATURE = config['model_parameters']['temperature']
-MAX_OUTPUT_TOKENS = config['model_parameters']['max_output_tokens']
-MAX_SAMPLING_RATE = config['max_sampling_rate']
-NUM_OF_SHUFFLES = config['num_of_shuffles']
-NUMBER_OF_QUESTIONS = config['number_of_questions']
-TRACK_RESULTS = config['track_results']
-PRINT_RESULTS = config['print_results']
-DATASET_NAME = config['dataset_name']
-DATE = time.strftime(config['date_format'])
-CONTROL_OUTPUT = config['control_output']
+MODEL_PATH = config.get('model_paths')
+#in case the model is passed as an argument
+if args.model:
+    # overwrite MODEL_PATH with a dict with 1 entry: "Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022
+    MODEL_PATH = {args.model: "vllm:"+args.model}
+TEMPERATURE = config.get('model_parameters', {}).get('temperature')
 
-OUTPUT_PATH = config['output_path'].format(
+MAX_OUTPUT_TOKENS = config.get('model_parameters', {}).get('max_output_tokens')
+MAX_SAMPLING_RATE = config.get('max_sampling_rate')
+NUM_OF_SHUFFLES = config.get('num_of_shuffles')
+NUMBER_OF_QUESTIONS = config.get('number_of_questions')
+TRACK_RESULTS = config.get('track_results')
+PRINT_RESULTS = config.get('print_results')
+DATASET_NAME = config.get('dataset_name')
+DATE = time.strftime(config['date_format'])
+CONTROL_OUTPUT = config.get('control_output')
+
+
+# Get the directory where main.py is located
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Then when setting up OUTPUT_PATH, make it relative to SCRIPT_DIR
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, config['output_path'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
     dataset_name=DATASET_NAME,
     date=DATE
-)
+))
 
-OUTPUT_EVALUATION = config['output_evaluation'].format(
+# Do the same for other paths
+OUTPUT_EVALUATION = os.path.join(SCRIPT_DIR, config['output_evaluation'].format(
     output_path=OUTPUT_PATH,
     dataset_name=DATASET_NAME
-)
+))
 
-OUTPUT_EVALUATION_DETAILED = config['output_evaluation_detailed'].format(
+OUTPUT_EVALUATION_DETAILED = os.path.join(SCRIPT_DIR, config['output_evaluation_detailed'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
     dataset_name=DATASET_NAME,
     date=DATE
-)
+))
 
-OUTPUT_EVALUATION_JSON = config['output_evaluation_json'].format(
+OUTPUT_EVALUATION_JSON = os.path.join(SCRIPT_DIR, config['output_evaluation_json'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
     dataset_name=DATASET_NAME,
     date=DATE
-)
+))
 
-if config['create_results_folder'] and not os.path.exists(OUTPUT_PATH):
-    os.makedirs(OUTPUT_PATH)
+if not os.path.exists(OUTPUT_PATH):
+    os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 QUESTIONS_BANK = config['questions_bank']
 PROMPT_TEMPLATE = config['prompt_template']
@@ -290,7 +303,16 @@ for model, model_path in MODEL_PATH.items():
             print(llm_exam_result)
 
         if TRACK_RESULTS:
-            llm_exam_result.to_pickle(f"{OUTPUT_PATH}{NUMBER_OF_QUESTIONS}_questions_{DATASET_NAME}_{model}_shuffled_{shuffled_iteration}.pkl")
+            # When saving the file
+            safe_model_name = model.replace("/", "_")
+            save_filename = f"{NUMBER_OF_QUESTIONS}_questions_{DATASET_NAME}_{safe_model_name}_shuffled_{shuffled_iteration}.pkl"
+            save_path = os.path.join(OUTPUT_PATH, save_filename)
+            # Create directory if it doesn't exist
+            os.makedirs(OUTPUT_PATH, exist_ok=True)
+            print("saving to: ",save_path)
+            # Save the file
+            llm_exam_result.to_pickle(save_path)
+
        
         evaluation_df = evaluation(llm_exam_result)
         #Concat the evaluation dataframe to the complete dataframe

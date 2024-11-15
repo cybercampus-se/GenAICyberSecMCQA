@@ -83,6 +83,11 @@ for modelname in "${models[@]}"; do
         --config config_ccnp_5shot.yaml \
         --model "$modelname"
 
+    echo "Running mmlu"
+    .venv/bin/python main.py \
+        --config config_mmlu.yaml \
+        --model "$modelname"
+
     echo "Running ccna cot"
     .venv/bin/python main.py \
         --config config_ccna_COT.yaml \

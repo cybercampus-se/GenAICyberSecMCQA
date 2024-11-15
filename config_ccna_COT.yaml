@@ -38,16 +38,16 @@ dataset_name: "201-301-CCNA"
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}_{date}/"
+output_path: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/"
 
 # Set output file name
 output_evaluation: "{output_path}llm_0_Shot_COT_{dataset_name}.pkl"
 
 # Filename output evaluation detailed
-output_evaluation_detailed: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}_{date}/llm_prob_result_detailed_{dataset_name}_0_Shot_COT.pkl"
+output_evaluation_detailed: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/llm_prob_result_detailed_{dataset_name}_0_Shot_COT.pkl"
 
 # Set filename of json file
-output_evaluation_json: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}_{date}/llm_prob_result_{dataset_name}_0_Shot_COT.json"
+output_evaluation_json: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/llm_prob_result_{dataset_name}_0_Shot_COT.json"
 
 # Create folder for results if not exists
 create_results_folder: true

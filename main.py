@@ -41,7 +41,6 @@ NUMBER_OF_QUESTIONS = config.get('number_of_questions')
 TRACK_RESULTS = config.get('track_results')
 PRINT_RESULTS = config.get('print_results')
 DATASET_NAME = config.get('dataset_name')
-DATE = time.strftime(config['date_format'])
 CONTROL_OUTPUT = config.get('control_output')
 
 
@@ -51,8 +50,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Then when setting up OUTPUT_PATH, make it relative to SCRIPT_DIR
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, config['output_path'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
-    dataset_name=DATASET_NAME,
-    date=DATE
+    dataset_name=DATASET_NAME
 ))
 
 # Do the same for other paths
@@ -63,14 +61,12 @@ OUTPUT_EVALUATION = os.path.join(SCRIPT_DIR, config['output_evaluation'].format(
 
 OUTPUT_EVALUATION_DETAILED = os.path.join(SCRIPT_DIR, config['output_evaluation_detailed'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
-    dataset_name=DATASET_NAME,
-    date=DATE
+    dataset_name=DATASET_NAME
 ))
 
 OUTPUT_EVALUATION_JSON = os.path.join(SCRIPT_DIR, config['output_evaluation_json'].format(
     number_of_questions=NUMBER_OF_QUESTIONS,
-    dataset_name=DATASET_NAME,
-    date=DATE
+    dataset_name=DATASET_NAME
 ))
 
 if not os.path.exists(OUTPUT_PATH):

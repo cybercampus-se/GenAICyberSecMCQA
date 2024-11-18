@@ -10,12 +10,12 @@ model_paths:
   # Llama3.1 405B Instruct: "nim:meta/llama-3.1-405b-instruct"
   # Qwen2-72B-Instruct: "ollama:qwen2:72b-instruct-fp16"
   # Mistral Large 2: "ollama:mistral-large:123b-instruct-2407-fp16"
-  #Mistral Large 2: "nim:mistralai/mistral-large-2-instruct"
+  # Mistral Large 2: "nim:mistralai/mistral-large-2-instruct"
   # OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
   # Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022"
-  #Llama-3.1-nemotron-70b-instruct: "nim:nvidia/llama-3.1-nemotron-70b-instruct"
-  Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
+  # Llama-3.1-nemotron-70b-instruct: "nim:nvidia/llama-3.1-nemotron-70b-instruct"
+  # Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
 
 # Set the model parameters here
 model_parameters:

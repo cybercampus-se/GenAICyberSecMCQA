@@ -2,13 +2,7 @@
 
 # List of models to process
 models=(
-    "Qwen/Qwen2.5-7B-Instruct"
-    "Qwen/Qwen2.5-14B-Instruct"
-    "Qwen/Qwen2.5-32B-Instruct"
-    "Qwen/Qwen2.5-Coder-7B-Instruct"
-    "unsloth/Meta-Llama-3.1-8B-Instruct"
-    "unsloth/Llama-3.2-3B-Instruct"
-    "unsloth/Llama-3.2-1B-Instruct"
+     "Vezora/QwQ-32B-Preview-fp8-W8A16"
 )
 
 # Function to kill vllm server
@@ -34,11 +28,11 @@ for modelname in "${models[@]}"; do
     
     # Start vLLM server
     echo "Starting vLLM server for $modelname..."
-    /home/iai/sb7059/git/vLLM_Test/.venv/bin/python -m vllm.entrypoints.openai.api_server \
+    PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True /home/iai/sb7059/git/vLLM_Test/.venv/bin/python -m vllm.entrypoints.openai.api_server \
         --host 0.0.0.0 \
         --port 8086 \
+        --max-model-len 4096 \
         --gpu-memory-utilization 1 \
-        --tensor-parallel-size 4 \
         --enforce-eager \
         --download-dir /hkfs/work/workspace_haic/scratch/sb7059-llm_models/huggingface/hub \
         --model "$modelname" &

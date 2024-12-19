@@ -2,7 +2,7 @@
 
 # List of models to process
 models=(
-     "Vezora/QwQ-32B-Preview-fp8-W8A16"
+     "/hkfs/work/workspace_haic/scratch/sb7059-llm_models/huggingface/hub/phi-4"
 )
 
 # Function to kill vllm server
@@ -31,7 +31,6 @@ for modelname in "${models[@]}"; do
     PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True /home/iai/sb7059/git/vLLM_Test/.venv/bin/python -m vllm.entrypoints.openai.api_server \
         --host 0.0.0.0 \
         --port 8086 \
-        --max-model-len 4096 \
         --gpu-memory-utilization 1 \
         --enforce-eager \
         --download-dir /hkfs/work/workspace_haic/scratch/sb7059-llm_models/huggingface/hub \

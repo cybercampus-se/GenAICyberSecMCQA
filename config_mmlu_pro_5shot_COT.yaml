@@ -49,7 +49,7 @@ prompt_engineering: "5_Shot_COT"
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_{dataset_name}/"
+output_path: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/"
 
 # Set output file name
 output_evaluation: "{output_path}llm_{prompt_engineering}_{dataset_name}.pkl"

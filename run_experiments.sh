@@ -113,15 +113,15 @@ for modelname in "${models[@]}"; do
         --config config_ccna_COT.yaml \
         --model "$modelname"
 
-    echo "Running mmlu 0 shot"
-    .venv/bin/python main.py \
-        --config config_mmlu_pro_0shot.yaml \
-        --model "$modelname"
-
-    echo "Running mmlu 5 shot cot"
-    .venv/bin/python main.py \
-        --config config_mmlu_pro_5shot_COT.yaml \
-        --model "$modelname"
+#    echo "Running mmlu 0 shot"
+#    .venv/bin/python main.py \
+#        --config config_mmlu_pro_0shot.yaml \
+#        --model "$modelname"
+#
+#    echo "Running mmlu 5 shot cot"
+#    .venv/bin/python main.py \
+#        --config config_mmlu_pro_5shot_COT.yaml \
+#        --model "$modelname"
 
     # Kill the vLLM server
     # kill_vllm_server

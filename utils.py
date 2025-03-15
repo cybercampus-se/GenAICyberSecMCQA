@@ -34,14 +34,20 @@ def extract_answer(answer):
         A list of correct answers. 
     """
 
+    # Cleaning the input by removing the reasoning part.
+    answer = re.sub(r"<think>.*?</think>", "", answer, flags=re.DOTALL).strip()
+
     # Cleaning the input by removing some non-relevant characters
     answer_proc = re.sub(r'[\s\n.,]', '', answer)
-    
+
+    # TODO fix AND. There are issues with answers containing 'and'
+    # TODO R1s infinite loops.
+
     # Define regex patterns for different cases
     pattern_single_letters = re.compile(r'^[A-J]+$')
     #pattern1 = re.compile(r"answer is \(?([A-J]+)\)?", re.IGNORECASE)
-    pattern1 = re.compile(r"answer is \[?([A-J]+)\]?", re.IGNORECASE)
-    pattern2 = re.compile(r'.*[aA]nswer:\s*([A-J]+)', re.IGNORECASE)
+    pattern1 = re.compile(r"answer is \[?\**([A-J]+)\]?", re.IGNORECASE)
+    pattern2 = re.compile(r'.*[aA]nswer:\s*\**([A-J]+)', re.IGNORECASE)
     
     if re.match(pattern_single_letters, answer_proc):
         return list(answer_proc)

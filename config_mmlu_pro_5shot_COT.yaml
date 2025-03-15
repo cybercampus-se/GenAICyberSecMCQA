@@ -49,21 +49,22 @@ prompt_engineering: "5_Shot_COT"
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/"
+output_path: "./results/{number_of_questions}_questions_{dataset_name}/"
 
-# TODO här är du!!!!!!!!
+# Set output file name
+output_evaluation: "{output_path}llm_{prompt_engineering}_{dataset_name}.pkl"
 
 # Filename output evaluation detailed
-output_evaluation_detailed: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_detailed_{dataset_name}_5_Shot.pkl"
+output_evaluation_detailed: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_detailed_{dataset_name}_{prompt_engineering}.pkl"
 
 # Set filename of json file
-output_evaluation_json: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_{dataset_name}_5_Shot.json"
-
-# Set the questions bank here
-questions_bank: "./data/mmlu_Computer_Security.parquet"
+output_evaluation_json: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_{dataset_name}_{prompt_engineering}.json"
 
 # Create folder for results if not exists
 create_results_folder: true
 
+# Set the questions bank here
+questions_bank: "./data/mmlu_Computer_Security.parquet"
+
 # Set the prompt template here
-prompt_template: LLAMA31_INSTRUCT_MMLU_5_SHOT_OPENAI
+prompt_template: LLAMA31_MMLU_PRO_5_SHOT_COT

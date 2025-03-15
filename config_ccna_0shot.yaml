@@ -1,21 +1,22 @@
 # Configuration of MCQA with Cisco Certifications
+# VF and RF modified
 
 control_output: true
 
 # Dictionary with the model paths and the corresponding model names
 model_paths:
-  # Phi-3.5-mini-instruct: "vllm:microsoft/Phi-3.5-mini-instruct"
   # Phi-3-medium-4k-instruct: "vllm:microsoft/Phi-3-medium-4k-instruct"
   # Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
   # Llama3.1 70B Instruct: "ollama:llama3.1:70b-instruct-fp16"
   # Llama3.1 405B Instruct: "nim:meta/llama-3.1-405b-instruct"
   # Qwen2-72B-Instruct: "ollama:qwen2:72b-instruct-fp16"
   # Mistral Large 2: "ollama:mistral-large:123b-instruct-2407-fp16"
+  # Mistral Large 2: "nim:mistralai/mistral-large-2-instruct"
   # OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
-  # Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
   # Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022"
-  # o1-mini: "openai:o1-mini-2024-09-12"
+  # Llama-3.1-nemotron-70b-instruct: "nim:nvidia/llama-3.1-nemotron-70b-instruct"
+  # Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
   # Llama-3.1-8B-Instruct : ${LLM_SERVER_URL}
   Llama-3.1-8B : meta-llama/Llama-3.1-8B-Instruct
   DeepSeek-R1-Distill-Llama-8B : deepseek-ai/DeepSeek-R1-Distill-Llama-8B
@@ -38,28 +39,28 @@ track_results: true
 print_results: true
 
 # Dataset name
-dataset_name: "350-701-CCNP"
+dataset_name: "201-301-CCNA"
 
 # Date format
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/"
+output_path: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/"
 
 # Set output file name
-output_evaluation: "{output_path}llm_5_Shot_{dataset_name}.pkl"
+output_evaluation: "{output_path}llm_0_Shot_{dataset_name}.pkl"
 
 # Filename output evaluation detailed
-output_evaluation_detailed: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/llm_prob_result_detailed_{dataset_name}_5_Shot.pkl"
+output_evaluation_detailed: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/llm_prob_result_detailed_{dataset_name}_0_Shot.pkl"
 
 # Set filename of json file
-output_evaluation_json: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/llm_prob_result_{dataset_name}_5_Shot.json"
+output_evaluation_json: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/llm_prob_result_{dataset_name}_0_Shot.json"
 
 # Create folder for results if not exists
 create_results_folder: true
 
 # Set the questions bank here
-questions_bank: "./data/350-701-CCNP_no_images_100.parquet"
+questions_bank: "./data/201-301-CCNA_no_images_100.parquet"  # CCNA
 
 # Set the prompt template here
-prompt_template: "LLAMA31_INSTRUCT_CC_5_SHOT_OPENAI"
+prompt_template: "LLAMA31_INSTRUCT_0_SHOT_OPENAI"

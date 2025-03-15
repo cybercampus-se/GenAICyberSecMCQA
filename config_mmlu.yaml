@@ -15,11 +15,14 @@ model_paths:
   # OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
   # Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
-  Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022"
+  # Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022"
+  # Llama-3.1-8B-Instruct : ${LLM_SERVER_URL}
+  Llama-3.1-8B : meta-llama/Llama-3.1-8B-Instruct
+  deepseek-ai/DeepSeek-R1-Distill-Llama-8B : deepseek-ai/DeepSeek-R1-Distill-Llama-8B
 
 # Set the model parameters here
 model_parameters:
-  temperature: 0
+  temperature: 0.7
   max_output_tokens: 10
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
@@ -55,7 +58,7 @@ output_evaluation_detailed: "./results/{number_of_questions}_questions_5_Shot_HE
 output_evaluation_json: "./results/{number_of_questions}_questions_5_Shot_HELM_{dataset_name}/llm_prob_result_{dataset_name}_5_Shot.json"
 
 # Set the questions bank here
-questions_bank: "./data/mmlu_Computer_Security.parquet" 
+questions_bank: "./data/mmlu_Computer_Security.parquet"
 
 # Create folder for results if not exists
 create_results_folder: true

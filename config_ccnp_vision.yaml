@@ -6,15 +6,17 @@ control_output: true
 model_paths:
   #Llama-3.2-11B-Vision-instruct : "vllm:unsloth/Llama-3.2-11B-Vision-Instruct"
   #Molmo-72B-0924: "vllm:allenai/Molmo-72B-0924"
-  Molmo-7B-D-0924: "vllm:allenai/Molmo-7B-D-0924"
+  # Molmo-7B-D-0924: "vllm:allenai/Molmo-7B-D-0924"
   # Phi-3-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
   # OpenAI GPT-4o: "openai:gpt-4o-2024-05-13"
   # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
+  # TODO: Lägg till våra två språkmodeller; Llama 3.1 8b och Deepseek R1 på Llama 3.1 8b
+  # Llama-3.1-8B-Instruct : "https://llm-server.tail004934.ts.net"
 
 
 # Set the model parameters here
 model_parameters:
-  temperature: 0
+  temperature: 0.7
   max_output_tokens: 10
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong

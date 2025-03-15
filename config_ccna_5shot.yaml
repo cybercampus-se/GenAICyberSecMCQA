@@ -16,10 +16,13 @@ model_paths:
   # Claude 3.5 Sonnet (new): "anthropic:claude-3-5-sonnet-20241022"
   # Llama-3.1-nemotron-70b-instruct: "nim:nvidia/llama-3.1-nemotron-70b-instruct"
   # Qwen2.5-72B-Instruct: "vllm:Qwen/Qwen2.5-72B-Instruct"
+  # Llama-3.1-8B-Instruct : ${LLM_SERVER_URL}
+  Llama-3.1-8B : meta-llama/Llama-3.1-8B-Instruct
+  DeepSeek-R1-Distill-Llama-8B : deepseek-ai/DeepSeek-R1-Distill-Llama-8B
 
 # Set the model parameters here
 model_parameters:
-  temperature: 0
+  temperature: 0.7
   max_output_tokens: 10
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong

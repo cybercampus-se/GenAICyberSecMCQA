@@ -11,7 +11,10 @@ model_paths:
   # Anthropic Claude 3.5 Sonnet: "anthropic:claude-3-5-sonnet-20240620"
   # Phi-3.5-vision-128k-instruct: "vllm:microsoft/Phi-3-vision-128k-instruct"
   # Molmo-72B-0924: "vllm:allenai/Molmo-72B-0924"
-  Molmo-7B-D-0924: "vllm:allenai/Molmo-7B-D-0924"
+  # Molmo-7B-D-0924: "vllm:allenai/Molmo-7B-D-0924"
+  # Llama-3.1-8B-Instruct : ${LLM_SERVER_URL}
+  Llama-3.1-8B : meta-llama/Llama-3.1-8B-Instruct
+  DeepSeek-R1-Distill-Llama-8B : deepseek-ai/DeepSeek-R1-Distill-Llama-8B
 
 
 # Set the model parameters here

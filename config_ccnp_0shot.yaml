@@ -1,4 +1,5 @@
 # Configuration of MCQA with Cisco Certifications
+# VF and RF
 
 control_output: true
 
@@ -44,16 +45,16 @@ dataset_name: "350-701-CCNP"
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/"
+output_path: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/"
 
 # Set output file name
-output_evaluation: "{output_path}llm_5_Shot_{dataset_name}.pkl"
+output_evaluation: "{output_path}llm_0_Shot_{dataset_name}.pkl"
 
 # Filename output evaluation detailed
-output_evaluation_detailed: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/llm_prob_result_detailed_{dataset_name}_5_Shot.pkl"
+output_evaluation_detailed: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/llm_prob_result_detailed_{dataset_name}_0_Shot.pkl"
 
 # Set filename of json file
-output_evaluation_json: "./results/{number_of_questions}_questions_5_Shot_{dataset_name}/llm_prob_result_{dataset_name}_5_Shot.json"
+output_evaluation_json: "./results/{number_of_questions}_questions_0_Shot_{dataset_name}/llm_prob_result_{dataset_name}_0_Shot.json"
 
 # Create folder for results if not exists
 create_results_folder: true
@@ -62,4 +63,5 @@ create_results_folder: true
 questions_bank: "./data/350-701-CCNP_no_images_100.parquet"
 
 # Set the prompt template here
-prompt_template: "LLAMA31_INSTRUCT_CC_5_SHOT_OPENAI"
+prompt_template: "LLAMA31_INSTRUCT_0_SHOT_OPENAI"
+

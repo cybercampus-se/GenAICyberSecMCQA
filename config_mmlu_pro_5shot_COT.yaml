@@ -22,7 +22,7 @@ model_paths:
 
 # Set the model parameters here
 model_parameters:
-  temperature: 0.7
+  temperature: 0
   max_output_tokens: 10 # NOT USED
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong

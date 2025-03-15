@@ -26,7 +26,7 @@ model_parameters:
 max_sampling_rate: 1
 
 # Set to 1 if you don't want to shuffle
-num_of_shuffles: 5
+num_of_shuffles: 1
 
 number_of_questions: 100
 

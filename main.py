@@ -1,4 +1,6 @@
 import argparse
+import datetime
+
 from templates import *
 from utils import *
 import time
@@ -9,7 +11,7 @@ import json
 import os
 import requests
 import json
-from openai import OpenAI
+from openai import OpenAI, base_url
 import copy
 from dotenv import load_dotenv
 import sys
@@ -43,6 +45,8 @@ PRINT_RESULTS = config.get('print_results')
 DATASET_NAME = config.get('dataset_name')
 CONTROL_OUTPUT = config.get('control_output')
 
+llm_server_url = os.getenv('DEEPSEEK_SERVER_URL')
+api_key = os.getenv('API_KEY', default='EMPTY')
 
 # Get the directory where main.py is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -139,8 +143,12 @@ for model, model_path in MODEL_PATH.items():
     elif "vllm" in model_path:
         model_name = model_path.split("vllm:")[1]
         client = OpenAI(
-            base_url="http://localhost:8086/v1",
-            api_key="test")
+            base_url = llm_server_url,
+            api_key=api_key)
+            # base_url="http://localhost:8086/v1",
+            # api_key="test")
+        #print(llm_server_url + " "  + api_key)
+        #sys.exit()
     elif "openai" in model_path:
         model_name = model_path.split("openai:")[1]
         client = OpenAI()
@@ -160,10 +168,11 @@ for model, model_path in MODEL_PATH.items():
         print("Model loaded")
     else:
         #throw an exception if the model is not found
+        print(model_name + " " + model_path)
         raise Exception("Model not found")
 
     for shuffled_iteration in range(NUM_OF_SHUFFLES):
-        llm_exam_result = pd.DataFrame(columns = ["Model", "QuestionIndex", "SamplingIndex", "NumberOfChoices", "NumberOfCorrectLLMAnswers", "NumberOfIncorrectLLMAnswers", "NumberOfCorrectExamAnswers", "Ratio", "LLM_Answer", "Exam_Answers", "Answered_Correctly",  "Too_Many_answers"]) 
+        llm_exam_result = pd.DataFrame(columns = ["Model", "QuestionIndex", "SamplingIndex", "NumberOfChoices", "NumberOfCorrectLLMAnswers", "NumberOfIncorrectLLMAnswers", "NumberOfCorrectExamAnswers", "Ratio", "LLM_Answer", "Exam_Answers", "Extracted_Answer", "Answered_Correctly",  "Too_Many_answers"])
         #Iterate over each question in the question dataframe
         #Start the timer
         start_time = time.time()
@@ -209,9 +218,10 @@ for model, model_path in MODEL_PATH.items():
                     model=model_name,
                     messages=messages,
                     temperature=TEMPERATURE,
-                    max_tokens=MAX_OUTPUT_TOKENS,
+                    # max_tokens=MAX_OUTPUT_TOKENS,
                     )
                     llm_answer = response.choices[0].message.content
+
                 elif "nom" in model_path:
                     try:
                         image_base64= row["image"]
@@ -269,12 +279,13 @@ for model, model_path in MODEL_PATH.items():
                     llm_answer = client.messages.create(
                             max_tokens=MAX_OUTPUT_TOKENS,
                             model=model_name,
-                            messages=messages,                          
+                            messages=messages,
                         ).content[0].text
                 else:
                     raise Exception("Model not found")
                 # Check if the answer is in the expected format
                 print("LLM output: ",llm_answer)
+                # time.sleep(10)
                 if extract_answer(llm_answer) is not None:
                     # Extract the correct answers from the LLM answer and analyse the answer
                     num_of_correct_llm_answer, answerLLm, too_many_answers, answered_correctly, number_of_incorrect_llm_answers = evaluation_sampling(llm_answer, answers, num_of_correct_answer)
@@ -287,10 +298,18 @@ for model, model_path in MODEL_PATH.items():
             #Depending on the result of the answer, add the result to the dataframe
             if not valid_question_answer:
                 new_row = pd.DataFrame({"Model": [model], "QuestionIndex": [index_question], "SamplingIndex": [-1], "NumberOfChoices": num_of_choices, "NumberOfCorrectLLMAnswers": [0], "NumberOfIncorrectLLMAnswers": num_of_choices, "NumberOfCorrectExamAnswers": [num_of_correct_answer], "Ratio": [-1], "LLM_Answer": [llm_answer], "Exam_Answers": [answers]})
-                llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
+                # llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
+                if llm_exam_result.empty:
+                    llm_exam_result = new_row  # Directly assign instead of concatenating
+                else:
+                    llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
             else:
-                new_row = pd.DataFrame({"Model": [model], "QuestionIndex": [index_question], "SamplingIndex": [sample_Index],  "NumberOfChoices": num_of_choices, "NumberOfIncorrectLLMAnswers": number_of_incorrect_llm_answers , "NumberOfCorrectLLMAnswers": [num_of_correct_llm_answer], "NumberOfCorrectExamAnswers": [num_of_correct_answer], "Ratio": [num_of_correct_llm_answer/num_of_correct_answer], "LLM_Answer": [llm_answer], "Exam_Answers": [answers], "Answered_Correctly" : [answered_correctly], "Too_Many_answers": [too_many_answers]})
-                llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
+                new_row = pd.DataFrame({"Model": [model], "QuestionIndex": [index_question], "SamplingIndex": [sample_Index],  "NumberOfChoices": num_of_choices, "NumberOfIncorrectLLMAnswers": number_of_incorrect_llm_answers , "NumberOfCorrectLLMAnswers": [num_of_correct_llm_answer], "NumberOfCorrectExamAnswers": [num_of_correct_answer], "Ratio": [num_of_correct_llm_answer/num_of_correct_answer], "LLM_Answer": [llm_answer], "Exam_Answers": [answers], "Extracted_Answer": [answerLLm], "Answered_Correctly" : [answered_correctly], "Too_Many_answers": [too_many_answers]})
+                # llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
+                if llm_exam_result.empty:
+                    llm_exam_result = new_row  # Directly assign instead of concatenating
+                else:
+                    llm_exam_result = pd.concat([llm_exam_result, new_row], ignore_index=True)
                 valid_question_answer = False
 
         answered_correctly = False
@@ -301,7 +320,7 @@ for model, model_path in MODEL_PATH.items():
         if TRACK_RESULTS:
             # When saving the file
             safe_model_name = model.replace("/", "_")
-            save_filename = f"{NUMBER_OF_QUESTIONS}_questions_{DATASET_NAME}_{safe_model_name}_shuffled_{shuffled_iteration}.pkl"
+            save_filename = f"{NUMBER_OF_QUESTIONS}_questions_{DATASET_NAME}_{safe_model_name}_{datetime.datetime.now().strftime("%Y%m%d_%H%M")}_shuffled_{shuffled_iteration}.pkl"
             save_path = os.path.join(OUTPUT_PATH, save_filename)
             # Create directory if it doesn't exist
             os.makedirs(OUTPUT_PATH, exist_ok=True)

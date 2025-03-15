@@ -22,8 +22,8 @@
 #trap kill_vllm_server EXIT
 #cd /home/iai/sb7059/git/GenAICyberSecMCQA
 
-#models=("meta-llama/Llama-3.1-8B-Instruct")
-models=("deepseek-ai/DeepSeek-R1-Distill-Llama-8B")
+models=("meta-llama/Llama-3.1-8B-Instruct")
+#models=("deepseek-ai/DeepSeek-R1-Distill-Llama-8B")
 
 # Loop through each model
 for modelname in "${models[@]}"; do
@@ -71,46 +71,56 @@ for modelname in "${models[@]}"; do
     # Run the experiment
     echo "Running experiment for $modelname..."
 
-    echo "Running mmlu no shot"
-    .venv/bin/python main.py \
-        --config config_mmlu_no_shot.yaml \
-        --model "$modelname"
+#    echo "Running mmlu no shot"
+#    .venv/bin/python main.py \
+#        --config config_mmlu_no_shot.yaml \
+#        --model "$modelname"
 #
-    echo "Running mmlu few shot"
-    .venv/bin/python main.py \
-        --config config_mmlu.yaml \
-        --model "$modelname"
+#    echo "Running mmlu few shot"
+#    .venv/bin/python main.py \
+#        --config config_mmlu.yaml \
+#        --model "$modelname"
 
-    echo "Running mmlu simple shot"
-    .venv/bin/python main.py \
-        --config config_mmlu_simple.yaml \
-        --model "$modelname"
+#    echo "Running mmlu simple shot"
+#    .venv/bin/python main.py \
+#        --config config_mmlu_simple.yaml \
+#        --model "$modelname"
 
 
-    echo "Running ccnp 0 shot"
-    .venv/bin/python main.py \
-        --config config_ccnp_0shot.yaml \
-        --model "$modelname"
+#    echo "Running ccnp 0 shot"
+#    .venv/bin/python main.py \
+#        --config config_ccnp_0shot.yaml \
+#        --model "$modelname"
 
-    echo "Running ccnp 5 shot"
-    .venv/bin/python main.py \
-        --config config_ccnp_5shot.yaml \
-        --model "$modelname"
+#    echo "Running ccnp 5 shot"
+#    .venv/bin/python main.py \
+#        --config config_ccnp_5shot.yaml \
+#        --model "$modelname"
 
-    echo "Running ccna 0 shot"
-    .venv/bin/python main.py \
-        --config config_ccna_0shot.yaml \
-        --model "$modelname"
+#    echo "Running ccna 0 shot"
+#    .venv/bin/python main.py \
+#        --config config_ccna_0shot.yaml \
+#        --model "$modelname"
 
-    echo "Running ccna 5 shot"
-    .venv/bin/python main.py \
-        --config config_ccna_5shot.yaml \
-        --model "$modelname"
+#    echo "Running ccna 5 shot"
+#    .venv/bin/python main.py \
+#        --config config_ccna_5shot.yaml \
+#        --model "$modelname"
 
 
     echo "Running ccna cot"
     .venv/bin/python main.py \
         --config config_ccna_COT.yaml \
+        --model "$modelname"
+
+    echo "Running mmlu 0 shot"
+    .venv/bin/python main.py \
+        --config config_mmlu_pro_0shot.yaml \
+        --model "$modelname"
+
+    echo "Running mmlu 5 shot cot"
+    .venv/bin/python main.py \
+        --config config_mmlu_pro_5shot_COT.yaml \
         --model "$modelname"
 
     # Kill the vLLM server

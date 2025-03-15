@@ -19,14 +19,14 @@ model_paths:
 
 # Set the model parameters here
 model_parameters:
-  temperature: 0
+  temperature: 0.7
   max_output_tokens: 1000
 
 # Sampling rate determines how often a question is asked again if the answer format is wrong
 max_sampling_rate: 1
 
 # Set to 1 if you don't want to shuffle
-num_of_shuffles: 0.7
+num_of_shuffles: 5
 
 number_of_questions: 100
 
@@ -37,20 +37,23 @@ print_results: true
 # Dataset name
 dataset_name: "201-301-CCNA"
 
+# Type of prompt engineering
+prompt_engineering: "0_Shot_COT"
+
 # Date format
 date_format: "%Y_%m_%d_%H_%M"
 
 # Set output path
-output_path: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/"
+output_path: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/"
 
 # Set output file name
-output_evaluation: "{output_path}llm_0_Shot_COT_{dataset_name}.pkl"
+output_evaluation: "{output_path}llm_{prompt_engineering}_{dataset_name}.pkl"
 
 # Filename output evaluation detailed
-output_evaluation_detailed: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/llm_prob_result_detailed_{dataset_name}_0_Shot_COT.pkl"
+output_evaluation_detailed: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_detailed_{dataset_name}_{prompt_engineering}.pkl"
 
 # Set filename of json file
-output_evaluation_json: "./results/{number_of_questions}_questions_0_Shot_COT_{dataset_name}/llm_prob_result_{dataset_name}_0_Shot_COT.json"
+output_evaluation_json: "./results/{number_of_questions}_questions_{prompt_engineering}_{dataset_name}/llm_prob_result_{dataset_name}_{prompt_engineering}.json"
 
 # Create folder for results if not exists
 create_results_folder: true
@@ -59,4 +62,4 @@ create_results_folder: true
 questions_bank: "./data/201-301-CCNA_no_images_100.parquet"  # CCNA
 
 # Set the prompt template here
-prompt_template: "LLAMA31_INSTRUCT_CC_0_SHOT_COT"
+prompt_template: LLAMA31_INSTRUCT_CC_0_SHOT_COT

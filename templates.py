@@ -10,6 +10,31 @@ Question: {Exam_Question}
 {Exam_Choices}
 """
 
+LLAMA31_MMLU_PRO_1_SHOT_COT = [
+{"role": "user", "content": """Given the following question and ten candidate answers (A, B, C, D, E, F, G, H, I, and J), choose the best answer.
+Question: _____________ can modify data on your system – so that your system doesn’t run correctly or you can no longer access specific data, or it may even ask for ransom in order to give you access.
+
+A. Email Trojans  
+B. Backdoor Trojans  
+C. Rootkit Trojans  
+D. Banking Trojans  
+E. Trojan-Downloader  
+F. Spyware Trojans  
+G. Network Trojans  
+H. Worm Trojans  
+I. Ransom Trojans  
+J. IM Trojans  
+
+Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C, D, E, F, G, H, I, or J."""},
+{"role": "assistant", "content": """A: Let's think step by step. The system is asking for trojans, which are for ransom, which means ransom trojan. 
+   The answer is I."""},
+{"role": "user", "content": """Given the following question and ten candidate answers (A, B, C and D), choose the best answer.
+Question: {Exam_Question}
+{Exam_Choices}
+
+Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C, D, E, F, G, H, I, or J."""}
+]
+
 LLAMA31_MMLU_PRO_5_SHOT_COT = [
     { "role": "user", "content": """Given the following question and ten candidate answers (A, B, C, D, E, F, G, H, I, and J), choose the best answer.
 Question: A certain pipelined RISC machine has 8 general-purpose registers R0, R1, . . . , R7 and supports the following operations:
@@ -142,6 +167,11 @@ J. Delta
 Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C, D, E, F, G, H, I, or J."""},
     {"role": "assistant", "content": """A: Let's think step by step. Because X has the value 5, the first conditional IF (X < 0) is false, so we move to the first ELSE clause. Because X is 5 and Y is 10, the second conditional IF (X > Y) is false, so we move to the following ELSE clause. Since Y is 10, the conditional IF (Y > 0) is true, so the command DISPLAY ("November") is executed. 
    The answer is A."""},
+    {"role": "user", "content": """Given the following question and ten candidate answers (A, B, C and D), choose the best answer.
+Question: {Exam_Question}
+{Exam_Choices}
+
+Your response should end with \"The best answer is [the_answer_letter]\" where the [the_answer_letter] is one of A, B, C, D, E, F, G, H, I, or J."""}
 ]
 
 LLAMA31_INSTRUCT_MMLU_5_SHOT_OPENAI =  [
